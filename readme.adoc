@@ -27,7 +27,7 @@ sub link doc:  xref:src/docs/sub1/tutorial.adoc[]
 
 == works i do
 
-all source list file will add switch style after execute task  is my expectation
+all source list file will add switch style after execute task is my expectation
 
 . run asciidoctor below:
 +
@@ -51,7 +51,7 @@ asciidoctor {
     }
     sourceDir file('./')
     sources {
-        include 'readme.adoc', '**/tutorial.adoc'  #<.>
+        include 'readme.adoc','**/index.adoc', '**/tutorial.adoc'  #<.>
     }
     outputDir file('build/html')
     configurations 'asciidoctorExt'
