@@ -1,0 +1,96 @@
+= asciidoctor-boot-plugin
+:icons: font
+
+== tab switch
+
+[source,xml,indent=0,role="primary"]
+.Maven
+----
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>some-library</artifactId>
+    <version>1.2.3</version>
+</dependency>
+----
+
+[source,indent=0,role="secondary"]
+.Gradle
+----
+compile 'com.example:some-library:1.2.3'
+----
+
+== xref
+
+xhref link doc:  xref:src/docs/index.adoc[]
+
+sub link doc:  xref:src/docs/sub1/tutorial.adoc[]
+
+== works i do
+
+all source list file will add switch style after execute task  is my expectation
+
+. run asciidoctor below:
++
+[source,groovy]
+----
+asciidoctor {
+    baseDirFollowsSourceDir()
+    baseDirFollowsSourceFile()
+    copyAllResources()
+
+    asciidoctorj {
+        gemPaths = ['/home/luwei/gems', '/home/luwei/.gem/ruby/2.5.0', '/var/lib/gems/2.5.0', '/usr/lib/x86_64-linux-gnu/rubygems-integration/2.5.0', '/usr/lib/x86_64-linux-gnu/rubygems-integration/2.5.0', '/usr/share/rubygems-integration/all']
+        requires = ['asciidoctor-diagram', 'asciidoctor-kroki', 'asciidoctor-chart']
+    }
+
+    resources {
+        from('src/resources/images') {
+            include '**/*.png'
+        }
+        into './src/resources/images'
+    }
+    sourceDir file('./')
+    sources {
+        include 'readme.adoc', '**/tutorial.adoc'  #<.>
+    }
+    outputDir file('build/html')
+    configurations 'asciidoctorExt'
+}
+----
++
+<.> whole source list.
++
+**result**: only `readme.html` add switch style.
+
+. run task 2 below:
++
+[source,groovy]
+----
+...
+    sources {
+        include 'readme.adoc', 'src/docs/index.adoc', 'src/docs/sub1/tutorial.adoc'  #<.>
+    }
+...
+----
++
+<.> set whole source path
++
+**result**: result same to task 1.
+
+. run task 3 below:
++
+[source,groovy]
+----
+...
+    sources {
+        include 'src/docs/index.adoc'  #<.>
+    }
+...
+----
++
+<.> set single and whole path.
++
+**result**: `build/html/src/docs/index.html` add switch style.
+
+
+
